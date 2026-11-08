@@ -224,6 +224,69 @@ h1, h2, h3, p { margin: 0; }
 .proj small b { font-size: .8125rem; color: var(--ink); font-weight: 600; }
 .note { color: var(--muted); margin: 0 0 16px; font-size: .9688rem; }
 
+/* product feature cards + demo "videos" */
+.feats { display: grid; gap: 16px; }
+.feat { background: var(--tile); border-radius: 26px; padding: 28px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 32px; align-items: center; }
+.feat .info { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.feat .top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; }
+.feat h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.25rem, 4vw, 3rem); line-height: 1; letter-spacing: -.01em; }
+.feat .go { font-size: .875rem; font-weight: 600; color: var(--blue); }
+.feat .go:hover { text-decoration: underline; }
+.feat .one { color: var(--ink); font-size: 1.0625rem; }
+.feat ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.feat li { position: relative; padding-left: 26px; color: var(--muted); font-size: .9688rem; }
+.feat li::before { content: ""; position: absolute; left: 0; top: .5em; width: 14px; height: 8px; border-left: 2px solid var(--blue); border-bottom: 2px solid var(--blue); transform: rotate(-45deg) scale(.8); transform-origin: left top; }
+.feat .inc { display: inline-flex; align-self: flex-start; gap: 8px; align-items: baseline; font-size: .875rem; color: var(--muted); background: var(--blue-soft); padding: 8px 12px; border-radius: 10px; }
+.feat .inc b { color: var(--blue); font-weight: 700; }
+.tags2 { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags2 span { font-size: .75rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+
+.demo { --d-bg: #0B0D12; --d-panel: #141821; --d-line: #232836; --d-fg: #E9ECF2; --d-mut: #8790A3; --d-acc: #5B78FF; --d-ok: #34D399; --d-warn: #F87171; --d-gold: #FBBF24;
+  background: var(--d-bg); color: var(--d-fg); border-radius: 18px; overflow: hidden; font-size: .8125rem; box-shadow: 0 24px 48px -24px rgba(10,12,20,.45); min-width: 0; font-variant-numeric: tabular-nums; }
+.demo.pds { --d-acc: #F5A524; }
+.d-bar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--d-line); }
+.d-bar b { font-weight: 700; letter-spacing: .02em; }
+.d-bar .cap { color: var(--d-mut); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.d-bar .rec { display: inline-flex; align-items: center; gap: 6px; font-size: .6875rem; font-weight: 700; letter-spacing: .08em; color: var(--d-mut); }
+.d-bar .rec i { width: 7px; height: 7px; border-radius: 50%; background: var(--d-warn); animation: blink 1.4s steps(2) infinite; }
+@keyframes blink { 50% { opacity: .2; } }
+.d-body { padding: 14px; display: grid; gap: 10px; align-content: start; }
+.d-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 9px 11px; border-radius: 10px; background: var(--d-panel); border: 1px solid var(--d-line); min-width: 0; }
+.d-row > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.d-mut { color: var(--d-mut); }
+.pill-s, .d-btn { flex-shrink: 0; }
+.pill-s { font-size: .6875rem; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: rgba(255,255,255,.07); color: var(--d-mut); white-space: nowrap; }
+.pill-s.acc { background: color-mix(in srgb, var(--d-acc) 22%, transparent); color: var(--d-acc); }
+.pill-s.ok { background: color-mix(in srgb, var(--d-ok) 18%, transparent); color: var(--d-ok); }
+.pill-s.bad { background: color-mix(in srgb, var(--d-warn) 18%, transparent); color: var(--d-warn); }
+.d-btn { font-weight: 700; font-size: .75rem; padding: 6px 12px; border-radius: 8px; background: var(--d-acc); color: #fff; white-space: nowrap; }
+.d-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.d-grid span { display: flex; justify-content: space-between; align-items: center; gap: 4px; padding: 8px 9px; border-radius: 8px; background: var(--d-panel); border: 1px solid var(--d-line); white-space: nowrap; overflow: hidden; transition: background .35s, border-color .35s; }
+.d-grid span::after { content: "·"; color: var(--d-mut); }
+.d-grid span.on { background: color-mix(in srgb, var(--d-acc) 16%, var(--d-panel)); border-color: color-mix(in srgb, var(--d-acc) 55%, transparent); }
+.d-grid span.on::after { content: "✓"; color: var(--d-acc); font-weight: 700; }
+.d-total { display: flex; justify-content: space-between; align-items: baseline; padding: 12px; border-radius: 12px; background: color-mix(in srgb, var(--d-ok) 10%, var(--d-panel)); border: 1px solid color-mix(in srgb, var(--d-ok) 35%, transparent); }
+.d-total b { font-size: 1.375rem; color: var(--d-ok); font-weight: 800; letter-spacing: -.01em; }
+.d-ledger { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: var(--d-panel); border: 1px solid var(--d-line); }
+.d-ledger div { display: flex; justify-content: space-between; padding: 3px 0; }
+.d-ledger .t { border-top: 1px solid var(--d-line); margin-top: 4px; padding-top: 7px; font-weight: 800; }
+.d-ledger .t b { color: var(--d-ok); }
+.strike { text-decoration: line-through; color: var(--d-mut); }
+/* stage reveal: complete at rest; JS arms it */
+.demo.armed [data-at] { opacity: .12; transform: translateY(4px); transition: opacity .45s ease, transform .45s ease; }
+.demo.armed [data-at].on { opacity: 1; transform: none; }
+.demo.armed .d-grid span[data-at] { opacity: 1; transform: none; }
+.scrub { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; padding: 10px 14px 12px; border-top: 1px solid var(--d-line); }
+.scrub div { display: grid; gap: 6px; font-size: .625rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--d-mut); }
+.scrub div i { display: block; height: 3px; border-radius: 3px; background: var(--d-line); overflow: hidden; }
+.scrub div i::after { content: ""; display: block; height: 100%; width: 100%; background: var(--d-acc); }
+.demo.armed .scrub div i::after { width: 0; }
+.demo.armed .scrub div.done i::after { width: 100%; }
+.demo.armed .scrub div.cur i::after { width: 100%; transition: width var(--dur, 2s) linear; }
+.demo.armed .scrub div.cur { color: var(--d-fg); }
+.demo.armed .scrub div.pre i::after { transition: none; width: 0; }
+
+.pvid { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 18px; background: #06070c; object-fit: cover; box-shadow: 0 0 0 1px rgba(0,0,0,.06), 0 30px 60px -28px rgba(10,12,20,.55); min-width: 0; }
 /* contact */
 .contact { margin-top: clamp(72px, 9vw, 112px); }
 .contact .t { padding: clamp(32px, 5vw, 56px); display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; align-items: end; }
@@ -247,12 +310,18 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 @media (max-width: 980px) {
+  .feat { grid-template-columns: minmax(0, 1fr); gap: 22px; }
   .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(170px, auto); }
   .t.hero { grid-column: span 2; grid-row: auto; }
   .sec-h { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .contact .t { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 620px) {
+  .feat { padding: 20px; }
+  .d-body { padding: 10px; gap: 8px; }
+  .demo { font-size: .75rem; }
+  .d-grid span { font-size: .6875rem; padding: 7px; }
+  .scrub div { font-size: .5625rem; letter-spacing: .04em; }
   .t { padding: 20px; border-radius: 22px; }
   .t.hero { padding: 26px 22px; }
   .row { grid-template-columns: minmax(0, 1fr); gap: 6px; }
@@ -437,22 +506,42 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     </section>
 
     <section class="sec" id="projects" aria-labelledby="pr-h">
-      <div class="sec-h">
-        <h2 id="pr-h">Side projects</h2>
-        <div>
-          <p class="note">Two software products I built using AI.</p>
-          <div class="projs">
-            <a class="proj" href="https://rsamaxxed.com/" target="_blank" rel="noopener">
-              <span class="top"><b>RSAMAXXED</b><span class="go">rsamaxxed.com ↗</span></span>
-              <p>Automates a reverse split arbitrage strategy. It sources recommended buys, places them across nine brokerage accounts and tracks realized profit.</p>
-              <small>Avg. income from the software: <b>$1,200/mo</b></small>
-            </a>
-            <a class="proj" href="https://passiveds.com/" target="_blank" rel="noopener">
-              <span class="top"><b>PassiveDS</b><span class="go">passiveds.com ↗</span></span>
-              <p>Automates an eBay dropshipping store, from listing to fulfillment.</p>
-            </a>
+      <div class="sec-h" style="margin-bottom:28px">
+        <h2 id="pr-h">Side <em>projects</em></h2>
+        <p style="color:var(--muted);font-size:1.125rem;align-self:end;max-width:30em">Two software products I built using AI. Both are live with paying customers.</p>
+      </div>
+      <div class="feats">
+        <article class="feat">
+          <div class="info">
+            <div class="top"><h3>RSAMAXXED</h3><a class="go" href="https://rsamaxxed.com/" target="_blank" rel="noopener">rsamaxxed.com ↗</a></div>
+            <p class="one">Automates a reverse split arbitrage strategy, from finding the play to booking the profit.</p>
+            <ul>
+              <li>Sources reverse-split plays from public filings and labels each one</li>
+              <li>Imports recommended buys into a trade queue automatically</li>
+              <li>One-click mirror buys and sells across 9 brokerages at once</li>
+              <li>Journals every fill and reports realized profit only</li>
+              <li>Broker logins never leave the user’s computer</li>
+            </ul>
+            <div class="tags2"><span>Windows desktop app</span><span>Cloud dashboard</span><span>Alert feed</span></div>
+            <span class="inc">Avg. income from the software <b>$1,200/mo</b></span>
           </div>
-        </div>
+          <video class="pvid" src="media/rsa.mp4" poster="media/rsa-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Video: RSAMAXXED walkthrough. New plays arrive from the feed, one click buys in all 9 brokerages, the split rounds every share up, and only realized profit is counted."></video>
+        </article>
+
+        <article class="feat">
+          <div class="info">
+            <div class="top"><h3>PassiveDS</h3><a class="go" href="https://passiveds.com/" target="_blank" rel="noopener">passiveds.com ↗</a></div>
+            <p class="one">An eBay dropshipping store that runs itself.</p>
+            <ul>
+              <li>Screens products for demand, margin and brand-protection risk</li>
+              <li>Lists to eBay and keeps price and stock synced with Amazon</li>
+              <li>Orders from Amazon the moment an item sells and uploads tracking</li>
+              <li>Shows true profit on every order after every fee</li>
+            </ul>
+            <div class="tags2"><span>SaaS</span><span>eBay</span><span>Amazon</span></div>
+          </div>
+          <video class="pvid" src="media/pds.mp4" poster="media/pds-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Video: PassiveDS walkthrough. It finds products, lists them on eBay, orders from Amazon when they sell, shows real profit per order, and answers questions with AI."></video>
+        </article>
       </div>
     </section>
   </div>
@@ -506,6 +595,43 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       ro.observe(road);
     }
   }
+  // demo "videos": loop stages, only while visible
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var caps = {
+    rsa: ['Watching filings for new reverse splits', 'New play found and queued', 'Mirror BUY sent to 9 brokerages', 'Split effective: shares round up', 'SELL × 9 filled, profit booked'],
+    pds: ['Finding products people already buy', 'Screening demand, margin and brand risk', 'Listing the winner on eBay', 'Sold, ordered on Amazon, tracking uploaded', 'Profit after every fee']
+  };
+  var durs = { rsa: [1500, 1700, 2600, 1800, 2900], pds: [1300, 2100, 1600, 2300, 2900] };
+  document.querySelectorAll('[data-demo]').forEach(function (el) {
+    if (reduce || !('IntersectionObserver' in window)) return;
+    var key = el.getAttribute('data-demo'), D = durs[key], C = caps[key];
+    var items = el.querySelectorAll('[data-at]'), segs = el.querySelectorAll('.scrub div'), cap = el.querySelector('[data-cap]');
+    var grid = el.querySelectorAll('.d-grid span'), counters = el.querySelectorAll('[data-count]');
+    var stage = -1, timer = null, visible = false;
+    el.classList.add('armed');
+    function count(node) {
+      var target = parseFloat(node.getAttribute('data-count')), t0 = performance.now();
+      (function tick(t) { var k = Math.min(1, (t - t0) / 900); node.textContent = '+$' + (target * (1 - Math.pow(1 - k, 3))).toFixed(2); if (k < 1) requestAnimationFrame(tick); })(t0);
+    }
+    function go(n) {
+      stage = n;
+      items.forEach(function (it) { it.classList.toggle('on', +it.getAttribute('data-at') <= n); });
+      grid.forEach(function (g, i) { g.classList.remove('on'); if (n >= 2) { if (n === 2) setTimeout(function () { g.classList.add('on'); }, 250 + i * 170 + (i % 3) * 60); else g.classList.add('on'); } });
+      if (n === 4) counters.forEach(count);
+      if (cap) cap.textContent = C[n];
+      segs.forEach(function (sg, i) {
+        sg.classList.remove('cur', 'done', 'pre');
+        if (i < n) sg.classList.add('done');
+        else if (i === n) { sg.classList.add('pre'); sg.style.setProperty('--dur', D[n] + 'ms'); void sg.offsetWidth; sg.classList.remove('pre'); sg.classList.add('cur'); }
+      });
+      timer = setTimeout(function () { if (visible) go((n + 1) % D.length); }, D[n]);
+    }
+    new IntersectionObserver(function (es) {
+      visible = es[0].isIntersecting;
+      if (visible && !timer) go(0);
+      if (!visible) { clearTimeout(timer); timer = null; }
+    }, { threshold: .3 }).observe(el);
+  });
 })();
 </script>
 </body>
