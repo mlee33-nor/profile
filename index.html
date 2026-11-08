@@ -287,14 +287,42 @@ h1, h2, h3, p { margin: 0; }
 .demo.armed .scrub div.pre i::after { transition: none; width: 0; }
 
 .pvid { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 18px; background: #06070c; object-fit: cover; box-shadow: 0 0 0 1px rgba(0,0,0,.06), 0 30px 60px -28px rgba(10,12,20,.55); min-width: 0; }
-.vwrap { position: relative; min-width: 0; }
-.vplay { position: absolute; inset: 0; display: grid; place-items: center; align-content: center; gap: 14px; border: 0; border-radius: 18px; cursor: pointer; background: radial-gradient(ellipse at center, rgba(5,6,12,.15), rgba(5,6,12,.55)); color: #fff; font: 600 .9375rem/1 var(--sans); transition: background .2s; }
-.vplay:hover { background: radial-gradient(ellipse at center, rgba(5,6,12,.05), rgba(5,6,12,.45)); }
-.vbtn { width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.95); box-shadow: 0 16px 40px -10px rgba(0,0,0,.6), 0 0 0 8px rgba(255,255,255,.18); transition: transform .2s; }
-.vbtn svg { width: 30px; height: 30px; fill: #121212; margin-left: 4px; }
+.vwrap { position: relative; min-width: 0; border-radius: 18px; overflow: hidden; background: #06070c; box-shadow: 0 0 0 1px rgba(0,0,0,.06), 0 30px 60px -28px rgba(10,12,20,.55); isolation: isolate; }
+.vwrap .pvid { box-shadow: none; border-radius: 0; cursor: pointer; }
+.vplay { position: absolute; left: 0; right: 0; top: 0; aspect-ratio: 16 / 9; z-index: 3; display: grid; place-items: center; align-content: center; gap: 14px; border: 0; cursor: pointer; background: radial-gradient(ellipse at center, rgba(5,6,12,.12), rgba(5,6,12,.55)); color: #fff; font: 600 .9375rem/1 var(--sans); transition: opacity .45s ease, visibility .45s, background .25s; }
+.vplay:hover { background: radial-gradient(ellipse at center, rgba(5,6,12,.04), rgba(5,6,12,.45)); }
+.vbtn { position: relative; width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.95); box-shadow: 0 16px 40px -10px rgba(0,0,0,.6), 0 0 0 8px rgba(255,255,255,.16); transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.vbtn svg { width: 30px; height: 30px; fill: #121212; margin-left: 4px; transition: opacity .2s; }
+.vbtn::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 3px solid transparent; border-top-color: #fff; opacity: 0; transition: opacity .2s; }
 .vplay:hover .vbtn { transform: scale(1.07); }
-.vlbl { padding: 7px 14px; border-radius: 999px; background: rgba(5,6,12,.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-.vwrap.playing .vplay { display: none; }
+.vwrap.loading .vbtn { transform: scale(.92); }
+.vwrap.loading .vbtn::after { opacity: 1; animation: vspin .8s linear infinite; }
+@keyframes vspin { to { transform: rotate(360deg); } }
+.vlbl { padding: 7px 14px; border-radius: 999px; background: rgba(5,6,12,.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: opacity .3s; }
+.vwrap.started .vplay { opacity: 0; visibility: hidden; pointer-events: none; }
+.vwrap.started .vplay .vbtn { transform: scale(1.35); }
+.vctl { position: relative; z-index: 4; display: flex; align-items: center; gap: 10px; padding: 0 12px; background: #0b0d13; border-top: 1px solid rgba(255,255,255,.06); max-height: 0; opacity: 0; overflow: hidden; transition: max-height .4s cubic-bezier(.2,.8,.2,1), opacity .35s ease, padding .4s; }
+.vwrap.started .vctl { max-height: 60px; opacity: 1; padding: 8px 12px; }
+.vc { flex: 0 0 auto; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 10px; background: transparent; color: #fff; cursor: pointer; transition: background .2s; }
+.vc:hover { background: rgba(255,255,255,.14); }
+.vc svg { width: 20px; height: 20px; fill: currentColor; }
+.vpp .i-play, .vwrap.paused .vpp .i-pause { display: none; }
+.vwrap.paused .vpp .i-play { display: block; }
+.vmute .i-off, .vwrap.muted .vmute .i-on { display: none; }
+.vwrap.muted .vmute .i-off { display: block; }
+.vtrack { position: relative; flex: 1; height: 18px; cursor: pointer; display: flex; align-items: center; }
+.vtrack::before { content: ""; position: absolute; left: 0; right: 0; height: 4px; border-radius: 4px; background: rgba(255,255,255,.22); }
+.vfill { position: relative; height: 4px; width: 0; border-radius: 4px; background: linear-gradient(90deg, #8FA2FF, #fff); }
+.vfill::after { content: ""; position: absolute; right: -6px; top: 50%; width: 12px; height: 12px; margin-top: -6px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgba(255,255,255,.18); transform: scale(0); transition: transform .2s; }
+.vtrack:hover .vfill::after, .vtrack.drag .vfill::after { transform: scale(1); }
+.vtime { font: 600 .75rem/1 var(--sans); color: rgba(255,255,255,.85); font-variant-numeric: tabular-nums; min-width: 32px; }
+.vflash { position: absolute; z-index: 2; left: 50%; top: calc(50% - 30px); width: 72px; height: 72px; margin: -36px 0 0 -36px; border-radius: 50%; display: grid; place-items: center; background: rgba(5,6,12,.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; transform: scale(.8); pointer-events: none; transition: opacity .3s, transform .3s; }
+.vflash svg { width: 28px; height: 28px; fill: #fff; }
+.vwrap.paused .vflash { opacity: 1; transform: none; }
+.vwrap:fullscreen { border-radius: 0; display: flex; flex-direction: column; justify-content: center; background: #000; }
+.vwrap:fullscreen .pvid { width: 100%; flex: 1; min-height: 0; aspect-ratio: auto; object-fit: contain; }
+.vwrap:fullscreen .vplay { bottom: auto; height: 100%; }
+@media (prefers-reduced-motion: reduce) { .vplay, .vctl, .vflash, .vbtn { transition: none; } }
 /* contact */
 .contact { margin-top: clamp(72px, 9vw, 112px); }
 .contact .t { padding: clamp(32px, 5vw, 56px); display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; align-items: end; }
@@ -533,7 +561,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
             <div class="tags2"><span>Windows desktop app</span><span>Cloud dashboard</span><span>Alert feed</span></div>
             <span class="inc">Avg. income from the software <b>$1,200/mo</b></span>
           </div>
-          <div class="vwrap"><video class="pvid" src="media/rsa.mp4" poster="media/rsa-poster.jpg" preload="none" playsinline aria-label="Video: RSAMAXXED walkthrough. New plays arrive from the feed, one click buys in all 9 brokerages, the split rounds every share up, and only realized profit is counted."></video><button class="vplay" type="button" aria-label="Play the RSAMAXXED video with sound"><span class="vbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span class="vlbl">Watch the demo · 0:23</span></button></div>
+          <div class="vwrap"><video class="pvid" src="media/rsa.mp4" poster="media/rsa-poster.jpg" preload="metadata" playsinline aria-label="Video: RSAMAXXED walkthrough. New plays arrive from the feed, one click buys in all 9 brokerages, the split rounds every share up, and only realized profit is counted."></video><button class="vplay" type="button" aria-label="Play the RSAMAXXED video with sound"><span class="vbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span class="vlbl">Watch the demo · 0:23</span></button><div class="vctl" aria-hidden="false"><button class="vc vpp" type="button" aria-label="Pause"><svg viewBox="0 0 24 24"><path class="i-pause" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/><path class="i-play" d="M8 5.5v13l11-6.5z"/></svg></button><div class="vtrack" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="23" tabindex="0"><div class="vfill"></div></div><span class="vtime">0:00</span><button class="vc vmute" type="button" aria-label="Mute"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="i-on" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="i-off" d="M16.5 9.5l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><button class="vc vfs" type="button" aria-label="Full screen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="vflash" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></div></div>
         </article>
 
         <article class="feat">
@@ -548,7 +576,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
             </ul>
             <div class="tags2"><span>SaaS</span><span>eBay</span><span>Amazon</span></div>
           </div>
-          <div class="vwrap"><video class="pvid" src="media/pds.mp4" poster="media/pds-poster.jpg" preload="none" playsinline aria-label="Video: PassiveDS walkthrough. It finds products, lists them on eBay, orders from Amazon when they sell, shows real profit per order, and answers questions with AI."></video><button class="vplay" type="button" aria-label="Play the PassiveDS video with sound"><span class="vbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span class="vlbl">Watch the demo · 0:23</span></button></div>
+          <div class="vwrap"><video class="pvid" src="media/pds.mp4" poster="media/pds-poster.jpg" preload="metadata" playsinline aria-label="Video: PassiveDS walkthrough. It finds products, lists them on eBay, orders from Amazon when they sell, shows real profit per order, and answers questions with AI."></video><button class="vplay" type="button" aria-label="Play the PassiveDS video with sound"><span class="vbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span class="vlbl">Watch the demo · 0:23</span></button><div class="vctl" aria-hidden="false"><button class="vc vpp" type="button" aria-label="Pause"><svg viewBox="0 0 24 24"><path class="i-pause" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/><path class="i-play" d="M8 5.5v13l11-6.5z"/></svg></button><div class="vtrack" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="23" tabindex="0"><div class="vfill"></div></div><span class="vtime">0:00</span><button class="vc vmute" type="button" aria-label="Mute"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="i-on" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="i-off" d="M16.5 9.5l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><button class="vc vfs" type="button" aria-label="Full screen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="vflash" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></div></div>
         </article>
       </div>
     </section>
@@ -603,14 +631,57 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       ro.observe(road);
     }
   }
-  document.querySelectorAll('.vwrap').forEach(function (w) {
-    var v = w.querySelector('video'), b = w.querySelector('.vplay');
-    b.addEventListener('click', function () {
-      document.querySelectorAll('.vwrap.playing video').forEach(function (o) { if (o !== v) o.pause(); });
-      w.classList.add('playing'); v.controls = true; v.muted = false;
-      var pr = v.play(); if (pr && pr.catch) pr.catch(function () { v.muted = true; v.play(); });
+  // smooth click-to-play video player
+  var vwraps = document.querySelectorAll('.vwrap');
+  if ('IntersectionObserver' in window) {
+    var pre = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { var v = e.target.querySelector('video'); if (v.preload !== 'auto') { v.preload = 'auto'; try { v.load(); } catch (x) {} } pre.unobserve(e.target); } });
+    }, { rootMargin: '700px 0px' });
+    vwraps.forEach(function (w) { pre.observe(w); });
+  }
+  function fmt(s) { s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+  vwraps.forEach(function (w) {
+    var v = w.querySelector('video'), playBtn = w.querySelector('.vplay'), pp = w.querySelector('.vpp'), mute = w.querySelector('.vmute'),
+        fs = w.querySelector('.vfs'), track = w.querySelector('.vtrack'), fill = w.querySelector('.vfill'), time = w.querySelector('.vtime');
+    var idleT = null, raf = null, fadeRaf = null;
+    function fadeVolume(to, ms) {
+      cancelAnimationFrame(fadeRaf); var from = v.volume, t0 = performance.now();
+      (function step(now) { var k = Math.min(1, (now - t0) / ms); v.volume = from + (to - from) * k; if (k < 1) fadeRaf = requestAnimationFrame(step); })(t0);
+    }
+    function tick() { if (v.duration) { fill.style.width = (v.currentTime / v.duration * 100) + '%'; time.textContent = fmt(v.currentTime); } raf = requestAnimationFrame(tick); }
+    function wake() { w.classList.remove('idle'); clearTimeout(idleT); idleT = setTimeout(function () { w.classList.add('idle'); }, 2200); }
+    function start() {
+      vwraps.forEach(function (o) { if (o !== w) { var ov = o.querySelector('video'); if (!ov.paused) ov.pause(); } });
+      w.classList.add('loading'); v.muted = false; v.volume = 0;
+      var pr = v.play();
+      if (pr && pr.catch) pr.catch(function () { v.muted = true; w.classList.add('muted'); v.play(); });
+    }
+    playBtn.addEventListener('click', start);
+    v.addEventListener('playing', function () {
+      w.classList.remove('loading', 'paused'); w.classList.add('started');
+      if (!v.muted) fadeVolume(1, 500);
+      cancelAnimationFrame(raf); tick(); wake();
     });
-    v.addEventListener('ended', function () { w.classList.remove('playing'); v.controls = false; v.currentTime = 0; v.load(); });
+    v.addEventListener('waiting', function () { if (w.classList.contains('started')) w.classList.add('loading'); });
+    v.addEventListener('pause', function () { if (!v.ended) w.classList.add('paused'); cancelAnimationFrame(raf); });
+    v.addEventListener('ended', function () {
+      cancelAnimationFrame(raf); fill.style.width = '100%';
+      setTimeout(function () { w.classList.remove('started', 'paused', 'idle'); v.currentTime = 0; fill.style.width = '0'; }, 250);
+    });
+    function toggle() { if (v.paused) { v.play(); } else { v.pause(); } wake(); }
+    v.addEventListener('click', function () { if (w.classList.contains('started')) toggle(); else start(); });
+    pp.addEventListener('click', toggle);
+    mute.addEventListener('click', function () { v.muted = !v.muted; if (!v.muted && v.volume < .05) fadeVolume(1, 300); w.classList.toggle('muted', v.muted); mute.setAttribute('aria-label', v.muted ? 'Unmute' : 'Mute'); wake(); });
+    fs.addEventListener('click', function () {
+      if (document.fullscreenElement) { document.exitFullscreen(); return; }
+      if (w.requestFullscreen) w.requestFullscreen(); else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
+    });
+    function seekAt(x) { var r = track.getBoundingClientRect(); var k = Math.min(1, Math.max(0, (x - r.left) / r.width)); if (v.duration) { v.currentTime = k * v.duration; fill.style.width = k * 100 + '%'; time.textContent = fmt(v.currentTime); } }
+    track.addEventListener('pointerdown', function (e) { track.setPointerCapture(e.pointerId); track.classList.add('drag'); seekAt(e.clientX); });
+    track.addEventListener('pointermove', function (e) { if (track.classList.contains('drag')) seekAt(e.clientX); });
+    track.addEventListener('pointerup', function () { track.classList.remove('drag'); });
+    track.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') v.currentTime += 2; if (e.key === 'ArrowLeft') v.currentTime -= 2; });
+    w.addEventListener('pointermove', function () { if (w.classList.contains('started')) wake(); });
   });
   // demo "videos": loop stages, only while visible
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
